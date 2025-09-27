@@ -59,21 +59,8 @@
     .product button:hover {
       background: #005ecc;
     }
-    .bit-section {
-      margin: 2rem 0;
-      text-align: center;
-    }
-    .bit-section a {
-      display: inline-block;
-      background: #0b66c3;
-      color: white;
-      text-decoration: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 4px;
-      font-size: 1.1rem;
-    }
-    .bit-section a:hover {
-      background: #0955a1;
+    input[type="file"] {
+      display: none;
     }
   </style>
 </head>
@@ -88,34 +75,42 @@
       <div class="product">
         <img src="Copilot_20250925_194022.png" alt="Product 1" />
         <h3>Product 1</h3>
-        <p>find out if a voice message is made with ai or by a real voice</p>
-        <button onclick="buyWithBit()">pay with Bit</button>
+        <p>Find out if a voice message is AI or real</p>
+        <button onclick="document.getElementById('voiceUpload').click()">Upload Voice</button>
+        <input type="file" id="voiceUpload" accept="audio/*" onchange="handleFileUpload(event, 'voice')" />
       </div>
 
       <!-- Product 2 -->
       <div class="product">
         <img src="ChatGPT Image Sep 25, 2025, 08_41_00 PM.png" alt="Product 2" />
         <h3>Product 2</h3>
-        <p>find out if a picture is made with ai or by a real human</p>
-        <button onclick="buyWithBit()">pay with Bit</button>
+        <p>Find out if a picture is AI or real</p>
+        <button onclick="document.getElementById('imageUpload').click()">Upload Picture</button>
+        <input type="file" id="imageUpload" accept="image/*" onchange="handleFileUpload(event, 'image')" />
       </div>
-
-      <!-- Add more products similarly -->
-    </div>
-
-    <div class="bit-section">
-      <p> directly pay with Bit using the link below:</p>
-      <a href="https://www.bitpay.co.il/app/me/E5DBF257-6551-4846-BDA0-B9FE61E73BC7" target="_blank">Pay with Bit</a>
     </div>
   </div>
 
   <script>
-    function buyWithBit() {
-      // You can do more logic here (e.g. show a specific product name or amount).
-      // For now, it just opens your Bit link.
-      window.open("https://www.bitpay.co.il/app/me/E5DBF257-6551-4846-BDA0-B9FE61E73BC7", "_blank");
+    function handleFileUpload(event, type) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      alert(`You selected a ${type} file: ${file.name}`);
+
+      // TODO: send file to your server or cloud storage.
+      // Example with FormData (requires backend endpoint):
+      /*
+      const formData = new FormData();
+      formData.append("file", file);
+      fetch("/upload", {
+        method: "POST",
+        body: formData
+      }).then(res => res.json())
+        .then(data => console.log("File uploaded:", data))
+        .catch(err => console.error(err));
+      */
     }
   </script>
 </body>
 </html>
-Add index.html with store code
