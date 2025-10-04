@@ -59,6 +59,11 @@
     .product button:hover {
       background: #005ecc;
     }
+    .result {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      color: #333;
+    }
   </style>
 </head>
 <body>
@@ -75,7 +80,7 @@
         <p>Find out if a voice message is AI or real</p>
         <input type="file" id="voiceUpload" accept="audio/*" />
         <button onclick="uploadFile('voice')">Upload Voice</button>
-        <p id="voiceResult"></p>
+        <p class="result" id="voiceResult"></p>
       </div>
 
       <!-- Product 2: Image -->
@@ -85,7 +90,7 @@
         <p>Find out if a picture is AI or real</p>
         <input type="file" id="imageUpload" accept="image/*" />
         <button onclick="uploadFile('image')">Upload Picture</button>
-        <p id="imageResult"></p>
+        <p class="result" id="imageResult"></p>
       </div>
     </div>
   </div>
@@ -94,6 +99,7 @@
     async function uploadFile(type) {
       const input = document.getElementById(type + "Upload");
       const file = input.files[0];
+
       if (!file) {
         alert("Please select a file first!");
         return;
@@ -102,16 +108,30 @@
       const formData = new FormData();
       formData.append("file", file);
 
+      const resultEl = document.getElementById(type + "Result");
+      resultEl.innerText = "Uploading and analyzing...";
+
       try {
         const response = await fetch(`http://127.0.0.1:8000/upload/${type}`, {
           method: "POST",
           body: formData
         });
+
         const data = await response.json();
-        document.getElementById(type + "Result").innerText = JSON.stringify(data, null, 2);
+
+        // Display AI analysis nicely
+        if (type === "image" && data.analysis && data.analysis.length > 0) {
+          const best = data.analysis[0];
+          resultEl.innerText = `Prediction: ${best.label} (${(best.score * 100).toFixed(1)}%)`;
+        } else if (type === "voice") {
+          resultEl.innerText = "Voice uploaded successfully! (Voice analysis not implemented yet)";
+        } else {
+          resultEl.innerText = data.message;
+        }
+
       } catch (err) {
         console.error(err);
-        document.getElementById(type + "Result").innerText = "Upload failed!";
+        resultEl.innerText = "Upload failed!";
       }
     }
   </script>
