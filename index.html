@@ -98,19 +98,66 @@
 
       alert(`You selected a ${type} file: ${file.name}`);
 
-      // TODO: send file to your server or cloud storage.
-      // Example with FormData (requires backend endpoint):
-      /*
+     
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload File</title>
+</head>
+<body>
+  <h1>Upload Image or Voice</h1>
+
+  <form id="uploadForm">
+    <label>File type:</label>
+    <select id="fileType">
+      <option value="image">Image</option>
+      <option value="voice">Voice</option>
+    </select>
+    <br><br>
+    
+    <input type="file" id="fileInput" />
+    <br><br>
+    
+    <button type="submit">Upload</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const fileInput = document.getElementById("fileInput");
+      const fileType = document.getElementById("fileType").value;
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert("Please select a file!");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", file);
-      fetch("/upload", {
-        method: "POST",
-        body: formData
-      }).then(res => res.json())
-        .then(data => console.log("File uploaded:", data))
-        .catch(err => console.error(err));
-      */
-    }
+
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/upload/${fileType}`, {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+        document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error(err);
+        document.getElementById("result").innerText = "Upload failed!";
+      }
+    });
   </script>
 </body>
 </html>
