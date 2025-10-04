@@ -59,9 +59,6 @@
     .product button:hover {
       background: #005ecc;
     }
-    input[type="file"] {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -71,74 +68,34 @@
 
   <div class="container">
     <div class="products">
-      <!-- Product 1 -->
+      <!-- Product 1: Voice -->
       <div class="product">
         <img src="Copilot_20250925_194022.png" alt="Product 1" />
         <h3>Product 1</h3>
         <p>Find out if a voice message is AI or real</p>
-        <button onclick="document.getElementById('voiceUpload').click()">Upload Voice</button>
-        <input type="file" id="voiceUpload" accept="audio/*" onchange="handleFileUpload(event, 'voice')" />
+        <input type="file" id="voiceUpload" accept="audio/*" />
+        <button onclick="uploadFile('voice')">Upload Voice</button>
+        <p id="voiceResult"></p>
       </div>
 
-      <!-- Product 2 -->
+      <!-- Product 2: Image -->
       <div class="product">
         <img src="ChatGPT Image Sep 25, 2025, 08_41_00 PM.png" alt="Product 2" />
         <h3>Product 2</h3>
         <p>Find out if a picture is AI or real</p>
-        <button onclick="document.getElementById('imageUpload').click()">Upload Picture</button>
-        <input type="file" id="imageUpload" accept="image/*" onchange="handleFileUpload(event, 'image')" />
+        <input type="file" id="imageUpload" accept="image/*" />
+        <button onclick="uploadFile('image')">Upload Picture</button>
+        <p id="imageResult"></p>
       </div>
     </div>
   </div>
 
   <script>
-    function handleFileUpload(event, type) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      alert(`You selected a ${type} file: ${file.name}`);
-
-     
-    }
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Upload File</title>
-</head>
-<body>
-  <h1>Upload Image or Voice</h1>
-
-  <form id="uploadForm">
-    <label>File type:</label>
-    <select id="fileType">
-      <option value="image">Image</option>
-      <option value="voice">Voice</option>
-    </select>
-    <br><br>
-    
-    <input type="file" id="fileInput" />
-    <br><br>
-    
-    <button type="submit">Upload</button>
-  </form>
-
-  <p id="result"></p>
-
-  <script>
-    const form = document.getElementById("uploadForm");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const fileInput = document.getElementById("fileInput");
-      const fileType = document.getElementById("fileType").value;
-      const file = fileInput.files[0];
-
+    async function uploadFile(type) {
+      const input = document.getElementById(type + "Upload");
+      const file = input.files[0];
       if (!file) {
-        alert("Please select a file!");
+        alert("Please select a file first!");
         return;
       }
 
@@ -146,18 +103,17 @@
       formData.append("file", file);
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/upload/${fileType}`, {
+        const response = await fetch(`http://127.0.0.1:8000/upload/${type}`, {
           method: "POST",
           body: formData
         });
-
         const data = await response.json();
-        document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+        document.getElementById(type + "Result").innerText = JSON.stringify(data, null, 2);
       } catch (err) {
         console.error(err);
-        document.getElementById("result").innerText = "Upload failed!";
+        document.getElementById(type + "Result").innerText = "Upload failed!";
       }
-    });
+    }
   </script>
 </body>
 </html>
