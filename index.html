@@ -5,6 +5,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Store</title>
   <style>
+    /* Awareness Section */
+.awareness-section {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.awareness-section h2 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.awareness-section p {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.challenge {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.challenge-option {
+  max-width: 250px;
+}
+
+.challenge-option img {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.challenge-option button,
+#restartBtn {
+  margin-top: 0.7rem;
+  background: #ff9500;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s ease;
+}
+
+.challenge-option button:hover,
+#restartBtn:hover {
+  background: #e68500;
+}
+
+.challenge-result {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.round-info,
+.score-info {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -119,75 +188,7 @@
       text-decoration: underline;
     }
   </style>
-  /* Awareness Section */
-.awareness-section {
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.awareness-section h2 {
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.awareness-section p {
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-.challenge {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 1.5rem;
-}
-
-.challenge-option {
-  max-width: 250px;
-}
-
-.challenge-option img {
-  width: 100%;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.challenge-option button,
-#restartBtn {
-  margin-top: 0.7rem;
-  background: #ff9500;
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: background 0.3s ease;
-}
-
-.challenge-option button:hover,
-#restartBtn:hover {
-  background: #e68500;
-}
-
-.challenge-result {
-  margin-top: 1rem;
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.round-info,
-.score-info {
-  margin-top: 0.5rem;
-  font-weight: bold;
-}
+  
 </head>
 <body>
   <header>
