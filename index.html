@@ -119,6 +119,75 @@
       text-decoration: underline;
     }
   </style>
+  /* Awareness Section */
+.awareness-section {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.awareness-section h2 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.awareness-section p {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.challenge {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.challenge-option {
+  max-width: 250px;
+}
+
+.challenge-option img {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.challenge-option button,
+#restartBtn {
+  margin-top: 0.7rem;
+  background: #ff9500;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s ease;
+}
+
+.challenge-option button:hover,
+#restartBtn:hover {
+  background: #e68500;
+}
+
+.challenge-result {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.round-info,
+.score-info {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
 </head>
 <body>
   <header>
@@ -126,6 +195,33 @@
   </header>
 
   <div class="container">
+    <!-- Awareness Challenge Section -->
+<section class="awareness-section">
+  <h2>Stay Alert: Spot the Detail</h2>
+  <p>
+    Safety often depends on noticing the smallest details. Subtle cues can reveal
+    whether content is authentic or AI-generated. Test your awareness by choosing
+    the image that appears more human-created. Complete all 10 rounds to see your score!
+  </p>
+
+  <div class="challenge">
+    <div class="challenge-option">
+      <img id="imageA" src="" alt="Option A" />
+      <button onclick="checkAnswer('A')">Choose A</button>
+    </div>
+    <div class="challenge-option">
+      <img id="imageB" src="" alt="Option B" />
+      <button onclick="checkAnswer('B')">Choose B</button>
+    </div>
+  </div>
+
+  <p id="roundInfo" class="round-info"></p>
+  <p id="challengeResult" class="challenge-result"></p>
+  <p id="scoreInfo" class="score-info"></p>
+  <button id="restartBtn" onclick="restartGame()" style="display:none;">
+    🔄 Play Again
+  </button>
+</section>
     <div class="products">
       <!-- Product 1: Voice -->
       <div class="product">
@@ -163,6 +259,99 @@
   </footer>
 
   <script>
+    // ===== Awareness Challenge Game =====
+const rounds = [
+  { A: "real1.jpg", B: "ai1.jpg", correct: "A" },
+  { A: "ai2.jpg", B: "real2.jpg", correct: "B" },
+  { A: "real3.jpg", B: "ai3.jpg", correct: "A" },
+  { A: "ai4.jpg", B: "real4.jpg", correct: "B" },
+  { A: "real5.jpg", B: "ai5.jpg", correct: "A" },
+  { A: "ai6.jpg", B: "real6.jpg", correct: "B" },
+  { A: "real7.jpg", B: "ai7.jpg", correct: "A" },
+  { A: "ai8.jpg", B: "real8.jpg", correct: "B" },
+  { A: "real9.jpg", B: "ai9.jpg", correct: "A" },
+  { A: "ai10.jpg", B: "real10.jpg", correct: "B" }
+];
+
+let currentRound = 0;
+let score = 0;
+
+function loadRound() {
+  if (currentRound >= rounds.length) {
+    endGame();
+    return;
+  }
+
+  const round = rounds[currentRound];
+  document.getElementById("imageA").src = round.A;
+  document.getElementById("imageB").src = round.B;
+  document.getElementById("roundInfo").innerText =
+    `Round ${currentRound + 1} of ${rounds.length}`;
+  document.getElementById("challengeResult").innerText = "";
+}
+
+function checkAnswer(choice) {
+  const round = rounds[currentRound];
+  const resultEl = document.getElementById("challengeResult");
+
+  if (choice === round.correct) {
+    score++;
+    resultEl.innerText =
+      "✅ Correct! Paying attention to subtle details helps keep us safe.";
+    resultEl.style.color = "green";
+  } else {
+    resultEl.innerText =
+      "❌ Not quite. Staying alert to small inconsistencies is key.";
+    resultEl.style.color = "red";
+  }
+
+  currentRound++;
+  setTimeout(loadRound, 1200);
+}
+
+function endGame() {
+  document.getElementById("imageA").style.display = "none";
+  document.getElementById("imageB").style.display = "none";
+  document.querySelectorAll(".challenge-option button").forEach(btn => {
+    btn.style.display = "none";
+  });
+
+  const scoreText = document.getElementById("scoreInfo");
+  scoreText.innerText = `🎉 You scored ${score} out of ${rounds.length}!`;
+
+  const resultEl = document.getElementById("challengeResult");
+  if (score === rounds.length) {
+    resultEl.innerText = "Outstanding! Your attention to detail is exceptional.";
+  } else if (score >= 7) {
+    resultEl.innerText = "Great job! You have strong awareness skills.";
+  } else if (score >= 4) {
+    resultEl.innerText = "Good effort! With more attention to detail, you'll improve.";
+  } else {
+    resultEl.innerText = "Keep practicing! Awareness grows with experience.";
+  }
+  resultEl.style.color = "#333";
+
+  document.getElementById("restartBtn").style.display = "inline-block";
+}
+
+function restartGame() {
+  currentRound = 0;
+  score = 0;
+
+  document.getElementById("imageA").style.display = "block";
+  document.getElementById("imageB").style.display = "block";
+  document.querySelectorAll(".challenge-option button").forEach(btn => {
+    btn.style.display = "inline-block";
+  });
+
+  document.getElementById("scoreInfo").innerText = "";
+  document.getElementById("restartBtn").style.display = "none";
+
+  loadRound();
+}
+
+// Initialize the first round when the page loads
+window.addEventListener("DOMContentLoaded", loadRound);
     async function uploadFile(type) {
       const input = document.getElementById(type + "Upload");
       const file = input.files[0];
