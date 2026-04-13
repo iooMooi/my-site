@@ -10,42 +10,61 @@
       margin: 0;
       padding: 0;
       background: #f8f8f8;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
+
     header {
       background: #333;
       color: white;
       padding: 1rem;
       text-align: center;
     }
+
     .container {
       max-width: 900px;
       margin: 1rem auto;
       padding: 0 1rem;
+      flex: 1;
     }
+
     .products {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1rem;
     }
+
     .product {
       background: white;
       border: 1px solid #ddd;
-      border-radius: 4px;
+      border-radius: 6px;
       padding: 1rem;
       text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+
+    .product:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
     .product img {
       max-width: 100%;
       height: auto;
       border-radius: 4px;
     }
+
     .product h3 {
       margin: 0.5rem 0;
     }
+
     .product p {
       font-size: 0.9rem;
       color: #555;
     }
+
     .product button {
       margin-top: 0.5rem;
       background: #007aff;
@@ -55,14 +74,49 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 1rem;
+      transition: background 0.3s ease;
     }
+
     .product button:hover {
       background: #005ecc;
     }
+
     .result {
       margin-top: 0.5rem;
       font-weight: bold;
       color: #333;
+    }
+
+    /* Footer Styling */
+    footer {
+      background: #333;
+      color: #ffffff;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    footer em {
+      font-style: italic;
+      color: #f1f1f1;
+    }
+
+    footer .author {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: #cccccc;
+    }
+
+    footer a {
+      color: #4da3ff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -75,8 +129,8 @@
     <div class="products">
       <!-- Product 1: Voice -->
       <div class="product">
-        <img src="Copilot_20250925_194022.png" alt="Product 1" />
-        <h3>Product 1</h3>
+        <img src="Copilot_20250925_194022.png" alt="Voice Analysis" />
+        <h3>Voice Analysis</h3>
         <p>Find out if a voice message is AI or real</p>
         <input type="file" id="voiceUpload" accept="audio/*" />
         <button onclick="uploadFile('voice')">Upload Voice</button>
@@ -85,8 +139,8 @@
 
       <!-- Product 2: Image -->
       <div class="product">
-        <img src="ChatGPT Image Sep 25, 2025, 08_41_00 PM.png" alt="Product 2" />
-        <h3>Product 2</h3>
+        <img src="ChatGPT Image Sep 25, 2025, 08_41_00 PM.png" alt="Image Analysis" />
+        <h3>Image Analysis</h3>
         <p>Find out if a picture is AI or real</p>
         <input type="file" id="imageUpload" accept="image/*" />
         <button onclick="uploadFile('image')">Upload Picture</button>
@@ -94,6 +148,19 @@
       </div>
     </div>
   </div>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>
+      Just as <em>The Gift of Fear</em> teaches us to trust our instincts in recognizing hidden dangers,
+      our ability to distinguish between AI-generated and human-created content has become essential
+      in the digital age. Awareness and critical thinking empower us to navigate information safely
+      and authentically.
+    </p>
+    <span class="author">
+      Inspired by the book "The Gift of Fear" by Gavin de Becker
+    </span>
+  </footer>
 
   <script>
     async function uploadFile(type) {
